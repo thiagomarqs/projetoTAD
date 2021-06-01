@@ -36,7 +36,7 @@ public class Programa {
 	//#Fornecedor -----------------------------------------#
 	
 	//Fornecedor - Lista de usu�rios
-	ListaFornecedor listaFornecedores = new ListaFornecedor(); 
+	ListaFornecedor listaFornecedores = persistencia.obterFornecedores(); 
 	
 	//Fornecedor - Lista de Produtos
 	ListaProduto listaFornecedorProduto = new ListaProduto();
@@ -50,7 +50,7 @@ public class Programa {
 	//Mercado -----------------------------------------#
 		
 	//Mercado - Lista de usu�rios
-	ListaMercado listaMercados = new ListaMercado(); 
+	ListaMercado listaMercados = persistencia.obterMercados();
 	
 	//Mercado - Lista de pedidos feitos pelo mercado
 	ListaMercadoPedido listaMercadoPedidos = new ListaMercadoPedido(); 
@@ -445,6 +445,7 @@ public class Programa {
 		}
 		else {
 			listaMercados.append(mercado);
+			persistencia.salvarMercado(mercado);
 				
 			out.println("\nParabens! O mercado " + mercado.Nome + " foi cadastrado.");
 				
