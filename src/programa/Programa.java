@@ -41,7 +41,7 @@ public class Programa {
 	//Fornecedor - Lista de Produtos
 	ListaProduto listaFornecedorProduto = new ListaProduto();
 	
-	//Fornecedor - Lista de Produtos
+	//Fornecedor - Lista de avaliacao
 	ListaAvaliacaoFornecedor listaAvaliacaoFornecedor = new ListaAvaliacaoFornecedor();
 		
 	//#Fornecedor -----------------------------------------#
@@ -70,13 +70,14 @@ public class Programa {
 	
 	//PEDIDO - VARIAVEIS GLOBAIS
 	public int idPedido = 1;
-	
-	//PRODUTO - VARIAVEIS GLOBAIS
-	public int idProduto = 1;
-	
+
 	//FORNECEDOR - VARIAVEIS GLOBAIS
 	public int fornecedorId = persistencia.idDisponivelFornecedor();
 	public int currentFornecedorId = 1;
+	
+	//PRODUTO - VARIAVEIS GLOBAIS
+	public int idProduto = persistencia.idDisponivelProduto(currentFornecedorId);
+	
 	
 	Scanner sc = new Scanner(System.in);
 	
@@ -187,6 +188,7 @@ public class Programa {
 		
 		if(forn != null && forn.getValue() != null) {
 			System.out.println("\nLogin feito com sucesso!");
+			currentFornecedorId = forn.getValue().Id;
 			menuFornecedor();
 		}
 		else {
@@ -257,9 +259,11 @@ public class Programa {
 			System.out.println("\nInforme a quantidade: ");
 			int estoque = scanner.nextInt();
 	
+			idProduto = persistencia.idDisponivelProduto(currentFornecedorId);
 			Produto produto = new Produto(idProduto, nome, descricao, preco, estoque, currentFornecedorId);
 	
 			listaFornecedorProduto.append(produto);
+			persistencia.salvarProduto(produto);
 			
 			System.out.println("\nProduto adicionado!");
 			
@@ -280,11 +284,11 @@ public class Programa {
 	
 	// Fornecedor - Listar Produtos
 	public void listarProdutosFornecedor() {
-		
-		if(listaFornecedorProduto.getSize() > 0) {		
+		ListaProduto produtosFornecedor = persistencia.obterProdutosFornecedor(currentFornecedorId);
+		if(produtosFornecedor.getSize() > 0) {		
 			out.println("\n### Lista Produtos do Fornecedor");
 			
-			out.println(listaFornecedorProduto.print());
+			out.println(produtosFornecedor.print());
 		}
 		else
 		{
