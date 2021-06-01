@@ -39,7 +39,7 @@ public class Programa {
 	ListaFornecedor listaFornecedores = persistencia.obterFornecedores(); 
 	
 	//Fornecedor - Lista de Produtos
-	ListaProduto listaFornecedorProduto = new ListaProduto();
+	ListaProduto listaFornecedorProduto = persistencia.obterTodosProdutos();
 	
 	//Fornecedor - Lista de avaliacao
 	ListaAvaliacaoFornecedor listaAvaliacaoFornecedor = new ListaAvaliacaoFornecedor();
@@ -76,7 +76,7 @@ public class Programa {
 	public int currentFornecedorId = 1;
 	
 	//PRODUTO - VARIAVEIS GLOBAIS
-	public int idProduto = persistencia.idDisponivelProduto(currentFornecedorId);
+	public int idProduto = persistencia.idDisponivelProduto();
 	
 	
 	Scanner sc = new Scanner(System.in);
@@ -259,7 +259,7 @@ public class Programa {
 			System.out.println("\nInforme a quantidade: ");
 			int estoque = scanner.nextInt();
 	
-			idProduto = persistencia.idDisponivelProduto(currentFornecedorId);
+			idProduto = persistencia.idDisponivelProduto();
 			Produto produto = new Produto(idProduto, nome, descricao, preco, estoque, currentFornecedorId);
 	
 			listaFornecedorProduto.append(produto);

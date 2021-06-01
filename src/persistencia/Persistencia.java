@@ -261,15 +261,13 @@ public class Persistencia {
 	}
 	
 	// retorna o id disponivel para registrar um novo produto
-		public int idDisponivelProduto(int idFornecedor) {
+		public int idDisponivelProduto() {
 			int id = 0;
 			try(BufferedReader br = new BufferedReader(new FileReader(pathProdutos))){
 				String line = br.readLine();
 				while(line != null) {
 					String[] dados = line.split(",");
-					if(Integer.parseInt(dados[5]) == idFornecedor) {
-						id = Integer.parseInt(dados[0]);
-					}
+					id = Integer.parseInt(dados[0]);
 					line = br.readLine();
 				}
 			} catch (FileNotFoundException e) {
