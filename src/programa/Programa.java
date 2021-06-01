@@ -7,11 +7,15 @@ import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
 
-import TADs.Fornecedor.*;
-import TADs.Mercado.*;
+import TADs.Fornecedor.ListaAvaliacaoFornecedor;
+import TADs.Fornecedor.ListaFornecedor;
+import TADs.Fornecedor.Nodes.NodeFornecedor;
+import TADs.Mercado.ListaMercado;
+import TADs.Mercado.ListaMercadoPedido;
 import TADs.Mercado.Nodes.NodeMercado;
-import TADs.Pedido.*;
-import TADs.Produto.*;
+import TADs.Mercado.Nodes.NodeMercadoPedido;
+import TADs.Pedido.ListaHistoricoPedido;
+import TADs.Produto.ListaProduto;
 import TADs.Produto.Nodes.NodeProduto;
 import entidades.Fornecedor.Avaliacao;
 import entidades.Fornecedor.Fornecedor;
@@ -22,15 +26,16 @@ import entidades.Pedido.Pedido;
 import entidades.Pedido.Sort.SortPedidoByAvaliation;
 import entidades.Pedido.Sort.SortPedidoByPrice;
 import entidades.Produto.Produto;
-import TADs.Fornecedor.*;
-import TADs.Fornecedor.Nodes.*;
-import TADs.Mercado.Nodes.*;
+import persistencia.Persistencia;
 
 public class Programa {
+	
+	// Persistencia
+	Persistencia persistencia = new Persistencia();
 		
 	//#Fornecedor -----------------------------------------#
 	
-	//Fornecedor - Lista de usuários
+	//Fornecedor - Lista de usuï¿½rios
 	ListaFornecedor listaFornecedores = new ListaFornecedor(); 
 	
 	//Fornecedor - Lista de Produtos
@@ -44,16 +49,16 @@ public class Programa {
 	
 	//Mercado -----------------------------------------#
 		
-	//Mercado - Lista de usuários
+	//Mercado - Lista de usuï¿½rios
 	ListaMercado listaMercados = new ListaMercado(); 
 	
 	//Mercado - Lista de pedidos feitos pelo mercado
 	ListaMercadoPedido listaMercadoPedidos = new ListaMercadoPedido(); 
 	
-	//Mercado - Lista de produtos que vão fazer parte da fila de pedidos
+	//Mercado - Lista de produtos que vï¿½o fazer parte da fila de pedidos
 	ListaProduto listaMercadoProduto = new ListaProduto(); 
 	
-	//Mercado - Lista de histórico de Pedidos executados
+	//Mercado - Lista de histï¿½rico de Pedidos executados
 	ListaHistoricoPedido listaHistoricoPedido = new ListaHistoricoPedido();
 	
 	//Mercado -----------------------------------------#
@@ -77,14 +82,14 @@ public class Programa {
 	
 	//Menu Principal -----------------------------------------#
 	
-	//Menu Principal - Tipo de usuário
+	//Menu Principal - Tipo de usuï¿½rio
 	public void main() {
 		int resp;
 		boolean sair = false;
 		
 		while(!sair) {
 			System.out.println("\n### BEM VINDO AO NOSSO SISTEMA ###");
-			System.out.println("\nInforme o seu tipo de usuário: ");
+			System.out.println("\nInforme o seu tipo de usuï¿½rio: ");
 			System.out.println("1 - Fornecedor");
 			System.out.println("2 - Mercado");
 			System.out.print("\n> Resposta: ");
@@ -96,7 +101,7 @@ public class Programa {
 				case 2:
 					mainMercado(); break;
 				default:
-					System.out.println("> Opção Inválida");
+					System.out.println("> Opï¿½ï¿½o Invï¿½lida");
 			}
 		}
 	}
@@ -114,7 +119,7 @@ public class Programa {
 		while(!sair) {
 			System.out.println("\n### FORNECEDOR ONLINE ###");
 			System.out.println("> Bem vindo ao Fornecedor Online!");
-			System.out.println("> Opções:");
+			System.out.println("> Opï¿½ï¿½es:");
 			System.out.println("1 - Fazer login");
 			System.out.println("2 - Fazer cadastro");
 			System.out.println("3 - Sair (Retornar Menu Principal)");
@@ -129,7 +134,7 @@ public class Programa {
 				case 3:
 					main(); break;
 				default:
-					System.out.println("> Opção Inválida");
+					System.out.println("> Opï¿½ï¿½o Invï¿½lida");
 			}
 		}
 	}
@@ -143,10 +148,10 @@ public class Programa {
 			
 		while(!sair) {
 			out.println("\n### MENU DO FORNECEDOR ###");
-			out.println("> Opções:");
+			out.println("> Opï¿½ï¿½es:");
 			out.println("1 - Anunciar Produtos");
 			out.println("2 - Ver Produtos Anunciados");
-			out.println("3 - Consultar Avaliações");
+			out.println("3 - Consultar Avaliaï¿½ï¿½es");
 			System.out.println("4 - Sair (Retornar Menu)");
 				
 			out.print("\n> Resposta: ");
@@ -163,7 +168,7 @@ public class Programa {
 				case 4:
 					mainFornecedor(); break;
 				default:
-					out.println("Opção Inválida");
+					out.println("Opï¿½ï¿½o Invï¿½lida");
 			}
 		}
 	}
@@ -185,7 +190,7 @@ public class Programa {
 			menuFornecedor();
 		}
 		else {
-			System.out.println("\nNão foi possível efetuar o Login");
+			System.out.println("\nNï¿½o foi possï¿½vel efetuar o Login");
 			mainFornecedor();
 		}			            	               	 
 	}
@@ -203,7 +208,7 @@ public class Programa {
 		System.out.println("\nInforme a senha: ");
 		String senha = entrada.nextLine();
 				
-		System.out.println("\nInforme o endereço completo: ");
+		System.out.println("\nInforme o endereï¿½o completo: ");
 		String endereco = entrada.nextLine();
 				
 		System.out.println("\nInforme o CEP: ");
@@ -217,7 +222,7 @@ public class Programa {
 		NodeFornecedor forn = listaFornecedores.find(username, senha);
 		
 		if(forn != null && forn.getValue() != null) {
-			System.out.println("\nEste usuário já existe. Tente novamente!");
+			System.out.println("\nEste usuï¿½rio jï¿½ existe. Tente novamente!");
 			mainFornecedor();
 		}
 		else {
@@ -225,7 +230,7 @@ public class Programa {
 			currentFornecedorId = fornecedorId;
 			fornecedorId += 1;
 			
-			out.println("\nParabens, " + f.novoUsername + " agora vocé um novo usuario do tipo FORNECEDOR.");
+			out.println("\nParabens, " + f.novoUsername + " agora vocï¿½ um novo usuario do tipo FORNECEDOR.");
 			menuFornecedor();
 		}
 	}
@@ -242,10 +247,10 @@ public class Programa {
 			System.out.println("\nInforme o nome do produto: ");
 			String nome = scanner.nextLine();
 	
-			System.out.println("\nInforme a descrição do produto: ");
+			System.out.println("\nInforme a descriï¿½ï¿½o do produto: ");
 			String descricao = scanner.nextLine();
 	
-			System.out.println("\nInforme o preço que deseja cobrar: ");
+			System.out.println("\nInforme o preï¿½o que deseja cobrar: ");
 			float preco = scanner.nextFloat();
 			
 			System.out.println("\nInforme a quantidade: ");
@@ -258,7 +263,7 @@ public class Programa {
 			System.out.println("\nProduto adicionado!");
 			
 			System.out.println("\nDeseja continuar adicionando produtos?");
-			System.out.println("Digite 0 PRA NÃO");
+			System.out.println("Digite 0 PRA Nï¿½O");
 				
 			double opcao = scanner.nextDouble();
 			
@@ -287,20 +292,20 @@ public class Programa {
 		}
 	}
 	
-	// Fornecedor - Listar Avaliações
+	// Fornecedor - Listar Avaliaï¿½ï¿½es
 	public void listarAvaliacoesFornecedor() {
 		
 		Scanner scanner = new Scanner(System.in);
 		
 		if(listaAvaliacaoFornecedor.getSize() > 0) {		
 			
-			out.println("\n### Lista Avaliações do Fornecedor");
+			out.println("\n### Lista Avaliaï¿½ï¿½es do Fornecedor");
 			
 			out.println(listaAvaliacaoFornecedor.print());
 			
-			out.println("\nOpções");		
-			out.println("1 - Comparar Avaliações (Ordem Crescente)");
-			out.println("2 - Comparar Avaliações (Ordem Decrescente)");
+			out.println("\nOpï¿½ï¿½es");		
+			out.println("1 - Comparar Avaliaï¿½ï¿½es (Ordem Crescente)");
+			out.println("2 - Comparar Avaliaï¿½ï¿½es (Ordem Decrescente)");
 	
 			int opcao = scanner.nextInt();
 			
@@ -348,7 +353,7 @@ public class Programa {
 		}
 		else
 		{
-			System.out.println("\nO fornecedor ainda não foi avaliado..");
+			System.out.println("\nO fornecedor ainda nï¿½o foi avaliado..");
 			menuFornecedor();
 		}
 	}
@@ -370,7 +375,7 @@ public class Programa {
 		
 		while(!sair) {
 			System.out.println("\n> Menu do Mercado");
-			System.out.println("> Opções:");
+			System.out.println("> Opï¿½ï¿½es:");
 			System.out.println("1 - Fazer login");
 			System.out.println("2 - Fazer cadastro");
 			System.out.println("3 - Sair (Retornar Menu Principal)");
@@ -385,7 +390,7 @@ public class Programa {
 				case 3:
 					main(); break;
 				default:
-					System.out.println("\nOpção Inválida"); break;
+					System.out.println("\nOpï¿½ï¿½o Invï¿½lida"); break;
 			}
 		}	
 	}
@@ -409,7 +414,7 @@ public class Programa {
 			menuMercado();
 		}
 		else {
-			System.out.println("\nNão foi possível efetuar o Login");
+			System.out.println("\nNï¿½o foi possï¿½vel efetuar o Login");
 			mainMercado();
 		}			          	            	               	 
 	}
@@ -427,7 +432,7 @@ public class Programa {
 		System.out.println("\nInforme o cnpj do mercado: ");
 		String cnpj = entrada.nextLine();
 						
-		System.out.println("\nInforme o endereço do mercado: ");
+		System.out.println("\nInforme o endereï¿½o do mercado: ");
 		String endereco = entrada.nextLine();
 
 		Mercado mercado = new Mercado(this.MercadoId, nome, cnpj, endereco);
@@ -435,7 +440,7 @@ public class Programa {
 		NodeMercado merc = listaMercados.find(cnpj);
 			
 		if(merc != null && merc.getValue() != null) {
-			System.out.println("\nJá existe um mercado com este cnpj!");
+			System.out.println("\nJï¿½ existe um mercado com este cnpj!");
 			mainMercado();
 		}
 		else {
@@ -453,7 +458,7 @@ public class Programa {
 	//Mercado - Main-----------------------------------------#
 	
 	
-	//Mercado - Menu de opções para o mercado logado-----------------------------------------#
+	//Mercado - Menu de opï¿½ï¿½es para o mercado logado-----------------------------------------#
 	public void menuMercado() {
 		
 		int resp;
@@ -461,12 +466,12 @@ public class Programa {
 				
 		while(!sair) {
 			System.out.println("\n### MENU DO MERCADO ###");
-			System.out.println("> Opções:");
+			System.out.println("> Opï¿½ï¿½es:");
 			System.out.println("1 - Fazer Pedidos");
 			System.out.println("2 - Listar Pedidos Cadastrados");
 			System.out.println("3 - Listar Produtos dos Fornecedores");
 			System.out.println("4 - Mandar Fornecedores Atenderem Pedidos");
-			System.out.println("5 - Listar Pedidos Atendidos pelos Fornecedores (Histórico)");
+			System.out.println("5 - Listar Pedidos Atendidos pelos Fornecedores (Histï¿½rico)");
 			System.out.println("6 - Sair");
 				
 			System.out.print("\n> Resposta: ");
@@ -486,11 +491,11 @@ public class Programa {
 				case 6:
 					mainMercado(); break;
 				default:
-					System.out.println("\nOpção Inválida"); break;
+					System.out.println("\nOpï¿½ï¿½o Invï¿½lida"); break;
 			}
 		}
 	}
-	//Mercado - Menu de opções para o mercado logado-----------------------------------------#
+	//Mercado - Menu de opï¿½ï¿½es para o mercado logado-----------------------------------------#
 
 	
 	//Mercado - Fazer Pedido -----------------------------------------#
@@ -519,7 +524,7 @@ public class Programa {
 				nodeProduto = listaFornecedorProduto.find(id);
 				
 				if(nodeProduto == null)
-					System.out.println("\nEste id não existe..");
+					System.out.println("\nEste id nï¿½o existe..");
 				
 			}while(nodeProduto == null );
 			
@@ -528,7 +533,7 @@ public class Programa {
 				quantidade = scanner.nextInt();	
 				
 				if(quantidade < 1)
-					System.out.println("\nQuantidade inválida");
+					System.out.println("\nQuantidade invï¿½lida");
 				
 			}while(quantidade < 1);
 					
@@ -570,7 +575,7 @@ public class Programa {
 			System.out.println(listaMercadoProduto.print());
 								
 			System.out.println("\nDeseja continuar adicionando produtos ao pedido?: ");
-			System.out.println("Digite 0 - Pra não");
+			System.out.println("Digite 0 - Pra nï¿½o");
 			int option = scanner.nextInt();
 				
 			if(option == 0) {
@@ -649,7 +654,7 @@ public class Programa {
 				
 				out.println(listaMercadoPedidos.print());
 				
-				System.out.println("\nOpções: ");
+				System.out.println("\nOpï¿½ï¿½es: ");
 				System.out.println("1 - Excluir Pedido: ");
 				System.out.println("2 - Alterar Pedido: ");
 				System.out.println("3 - Sair: ");
@@ -666,7 +671,7 @@ public class Programa {
 					sair = true;
 				}	
 				else {
-					System.out.println("Esta opção não existe..");
+					System.out.println("Esta opï¿½ï¿½o nï¿½o existe..");
 				}
 			}		
 		}
@@ -701,7 +706,7 @@ public class Programa {
 					nodeMerc = listaMercadoPedidos.find(id);
 					
 					if(nodeMerc == null)
-						System.out.println("Este id não existe..");			
+						System.out.println("Este id nï¿½o existe..");			
 				}
 				while(nodeMerc == null);		
 				
@@ -741,7 +746,7 @@ public class Programa {
 					nodeMerc = listaMercadoPedidos.find(id);
 						
 					if(nodeMerc == null)
-						System.out.println("Este id não existe..");	
+						System.out.println("Este id nï¿½o existe..");	
 				}
 				while(nodeMerc == null);
 				
@@ -752,7 +757,7 @@ public class Programa {
 					
 					System.out.println(listaMercadoPedidos.printByPedidoId(id));
 					
-					System.out.println("\nDeseja adicionar produtos ao pedido ou alterar os que ja estão?");
+					System.out.println("\nDeseja adicionar produtos ao pedido ou alterar os que ja estï¿½o?");
 					System.out.println("1 - Adicionar");
 					System.out.println("2 - Alterar");
 					
@@ -781,7 +786,7 @@ public class Programa {
 							}
 																				
 							if(nodeProduto == null)
-								System.out.println("Este id não existe..");	
+								System.out.println("Este id nï¿½o existe..");	
 						
 						}while(produto.getId() == 0 || produto.getNome() == null);
 						
@@ -813,7 +818,7 @@ public class Programa {
 									setQuantidadeToRemove(id, produto);
 								}
 								else {
-									System.out.println("\nEsta opção não existe..");
+									System.out.println("\nEsta opï¿½ï¿½o nï¿½o existe..");
 								}
 							}
 							while(choose > 3 || choose < 1);						
@@ -822,7 +827,7 @@ public class Programa {
 							
 							int quantidade = 0;
 							
-							System.out.println("\nEste produto não existe nesse pedido..");
+							System.out.println("\nEste produto nï¿½o existe nesse pedido..");
 							
 							do {
 								
@@ -903,7 +908,7 @@ public class Programa {
 								setQuantidadeToRemove(id, prod);
 							}
 							else {
-								System.out.println("\nEsta opção não existe..");
+								System.out.println("\nEsta opï¿½ï¿½o nï¿½o existe..");
 							}
 						}
 						while(qnt > 2 || qnt < 1);	
@@ -1026,7 +1031,7 @@ public class Programa {
 					System.out.println("\nProduto removido!");
 						
 					if(listaMercadoPedidos.find(idPedido).getValue().ListaProdutos.size() == 0) {
-						System.out.println("\nNo pedido não ha mais produtos, então ele será excluido!");
+						System.out.println("\nNo pedido nï¿½o ha mais produtos, entï¿½o ele serï¿½ excluido!");
 						listaMercadoPedidos.remove(idPedido);
 					}
 					
@@ -1071,7 +1076,7 @@ public class Programa {
 					
 					System.out.println("\nAs quantidades removida do produto foram devolvidas para o fornecedor!");
 						
-					System.out.println("\nEstoque alterado! Veja a situação do pedido ");
+					System.out.println("\nEstoque alterado! Veja a situaï¿½ï¿½o do pedido ");
 					System.out.println(listaMercadoPedidos.printByPedidoId(idPedido));
 				}
 			}
@@ -1105,7 +1110,7 @@ public class Programa {
 			out.println(listaMercadoPedidos.print());
 				
 			System.out.println("\nOs pedidos que o seu mercado " + CurrentMercadoName + 
-					" fez já estão na fila para serem atendidos..");
+					" fez jï¿½ estï¿½o na fila para serem atendidos..");
 				
 			System.out.println("\nFornecedores atendendo os pedidos..");
 			System.out.println("\nCom isso, a lista de pedidos vai ser esvaziada!");
@@ -1140,7 +1145,7 @@ public class Programa {
 	//Mercado - Fazer Fornecedores Atenderem os Pedidos do Mercado----------------------------------------#
 	
 	
-	//Mercado - Listar Pedidos Feitos (Histórico)-----------------------------------------#	
+	//Mercado - Listar Pedidos Feitos (Histï¿½rico)-----------------------------------------#	
 	public void listarPedidosFeitos() {
 			
 		if(listaHistoricoPedido.getSize() > 0) {	
@@ -1155,12 +1160,12 @@ public class Programa {
 			
 			do {
 				
-				out.println("\nLista Pedidos Atendidos (Histórico)");
+				out.println("\nLista Pedidos Atendidos (Histï¿½rico)");
 				
 				out.println(listaHistoricoPedido.print());
 				
-				out.println("\nOpções");		
-				out.println("1 - Comparar Pedidos por Preço (Ordem Crescente)");
+				out.println("\nOpï¿½ï¿½es");		
+				out.println("1 - Comparar Pedidos por Preï¿½o (Ordem Crescente)");
 				out.println("2 - Comparar Pedidos por Avaliacao (Ordem Crescente)");
 				out.println("3 - Sair");
 				
@@ -1175,7 +1180,7 @@ public class Programa {
 					for (HistoricoPedido hist : arr) {
 						text.append("\n" + "[");
 						text.append("IdPedido: " + hist.IdPedido  + ", ");
-						text.append("Preço: " + hist.Preco);
+						text.append("Preï¿½o: " + hist.Preco);
 						text.append("] " + "\n");
 					}
 						
@@ -1190,7 +1195,7 @@ public class Programa {
 					for (HistoricoPedido hist : arr) {
 						text.append("\n" + "[");
 						text.append("IdPedido: " + hist.IdPedido  + ", ");
-						text.append("Avaliação: " + hist.Avaliacao);
+						text.append("Avaliaï¿½ï¿½o: " + hist.Avaliacao);
 						text.append("] " + "\n");
 					}
 						
@@ -1205,7 +1210,7 @@ public class Programa {
 			menuMercado();
 		}		
 	}
-	//Mercado - Listar Pedidos Feitos (Histórico)-----------------------------------------#	
+	//Mercado - Listar Pedidos Feitos (Histï¿½rico)-----------------------------------------#	
 	
 	
 	//Helpers
