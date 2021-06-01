@@ -20,14 +20,14 @@ public class Persistencia {
 	
 	// O proprio construtor cria os arquivos se nao existirem
 	public Persistencia() {
-		if(!pathFornecedores.exists()) {
+		if(pathFornecedores.exists() == false) {
 			try {
 				pathFornecedores.createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		if(!pathMercados.exists()) {
+		if(pathMercados.exists() == false) {
 			try {
 				pathMercados.createNewFile();
 			} catch (IOException e) {
@@ -68,6 +68,7 @@ public class Persistencia {
 		
 	}
 	
+	// retorna uma lista de fornecedores a partir do arquivo csv
 	public ListaFornecedor obterFornecedores() {
 		ListaFornecedor fornecedores = new ListaFornecedor();
 		
@@ -96,6 +97,7 @@ public class Persistencia {
 		return fornecedores;
 	}
 	
+	// retorna uma lista de mercados a partir do arquivo csv
 	public ListaMercado obterMercados() {
 		ListaMercado mercados = new ListaMercado();
 		
@@ -122,8 +124,27 @@ public class Persistencia {
 		return mercados;
 	}
 	
+	// retorna o id disponivel para registrar um novo fornecedor
+	public int idDisponivelFornecedor() {
+		int id = 0;
+		try(BufferedReader br = new BufferedReader(new FileReader(pathFornecedores))){
+			String line = br.readLine();
+			while(line != null) {
+				String[] dados = line.split(",");
+				id = Integer.parseInt(dados[0]);
+				System.out.println(id);
+				line = br.readLine();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		id++;
+		return id;
+	}
 	
-	// retorna o idDisponivel para registrar um novo mercado
+	// retorna o id disponivel para registrar um novo mercado
 	public double idDisponivelMercado() {
 		double id = 0.0;
 		try(BufferedReader br = new BufferedReader(new FileReader(pathMercados))){
@@ -140,7 +161,6 @@ public class Persistencia {
 			e.printStackTrace();
 		}
 		id++;
-		System.out.println("return: " + id);
 		return id;
 	}
 }

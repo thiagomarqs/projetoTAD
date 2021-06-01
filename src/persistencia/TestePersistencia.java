@@ -11,6 +11,7 @@ public class TestePersistencia {
 //		Mercado m = new Mercado(1, "Estrela Mercados", "12312312312", "Rua estrela 123");
 		Persistencia p = new Persistencia();
 		p.idDisponivelMercado();
+		p.idDisponivelFornecedor();
 //		p.salvarFornecedor(f);
 //		p.salvarMercado(m);
 //		ListaFornecedor fornecedores = p.obterFornecedores();

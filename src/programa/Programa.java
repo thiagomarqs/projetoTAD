@@ -64,7 +64,7 @@ public class Programa {
 	//Mercado -----------------------------------------#
 	
 	//MERCADO - VARIAVEIS GLOBAIS
-	public double MercadoId = 1;
+	public double MercadoId = persistencia.idDisponivelMercado();
 	public double CurrentMercadoId = 0;
 	public String CurrentMercadoName;
 	
@@ -75,7 +75,7 @@ public class Programa {
 	public int idProduto = 1;
 	
 	//FORNECEDOR - VARIAVEIS GLOBAIS
-	public int fornecedorId = 1;
+	public int fornecedorId = persistencia.idDisponivelFornecedor();
 	public int currentFornecedorId = 1;
 	
 	Scanner sc = new Scanner(System.in);
@@ -227,6 +227,7 @@ public class Programa {
 		}
 		else {
 			listaFornecedores.append(f);
+			persistencia.salvarFornecedor(f);
 			currentFornecedorId = fornecedorId;
 			fornecedorId += 1;
 			
